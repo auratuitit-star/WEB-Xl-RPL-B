@@ -38,7 +38,7 @@ document.getElementById("loginForm")
 
                 "userLogin",
 
-                JSON.stringify(data)
+                JSON.stringify(user)
 
             );
 
