@@ -1,61 +1,44 @@
-document.getElementById("loginForm")
+document.getElementById("loginForm").addEventListener("submit", function(e) {
 
-.addEventListener(
+    e.preventDefault();
 
-    "submit",
+    const username = document.getElementById("username").value.trim().toLowerCase();
+    const password = document.getElementById("password").value.trim();
 
-    function(e){
+    console.log("Username input:", username);
+    console.log("Password input:", password);
+    console.log("Data users:", users);
 
-        e.preventDefault();
+    const user = users[username];
 
-        const username =
-            document.getElementById(
-                "username"
-            ).value
-            .trim()
-            .toLowerCase();
+    console.log("Data user ditemukan:", user);
 
-        const password =
-            document.getElementById(
-                "password"
-            ).value
-            .trim();
+    if (user) {
 
-        const user =
-            users[username];
+        console.log("Password users.js:", user.password);
+        console.log("Password cocok:", user.password === password);
 
-        if(
-
-            user &&
-
-            user.password === password
-
-        ){
+        if (user.password === password) {
 
             localStorage.setItem(
-
                 "userLogin",
-
                 JSON.stringify(user)
-
             );
 
-            window.location.href =
+            alert("Login berhasil!");
 
-                "dashboard.html";
+            window.location.href = "dashboard.html";
+
+        } else {
+
+            alert("Password salah!");
 
         }
 
-        else{
+    } else {
 
-            alert(
-
-                "Username atau password salah!"
-
-            );
-
-        }
+        alert("Username tidak ditemukan!");
 
     }
 
-);
+});
