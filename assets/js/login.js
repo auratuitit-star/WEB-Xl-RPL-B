@@ -12,7 +12,8 @@ document.getElementById("loginForm")
             document.getElementById(
                 "username"
             ).value
-            .trim();
+            .trim()
+            .toLowerCase();
 
         const password =
             document.getElementById(
@@ -20,19 +21,16 @@ document.getElementById("loginForm")
             ).value
             .trim();
 
-        const user = Object.values(users)
+        const user =
+            users[username];
 
-        .find(
+        if(
 
-            u =>
+            user &&
 
-            u.username === username &&
+            user.password === password
 
-            u.password === password
-
-        );
-
-        if(user){
+        ){
 
             localStorage.setItem(
 
@@ -43,6 +41,7 @@ document.getElementById("loginForm")
             );
 
             window.location.href =
+
                 "dashboard.html";
 
         }
