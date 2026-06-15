@@ -1,105 +1,189 @@
 window.onload = function(){
 
+    // =====================
+    // CEK LOGIN
+    // =====================
+
     const user = JSON.parse(
-        localStorage.getItem("currentUser")
+        localStorage.getItem("userLogin")
     );
 
     if(!user){
 
         window.location.href =
-            "login.html";
+            "index.html";
 
         return;
     }
 
+    // =====================
+    // CEK ROLE
+    // =====================
+
     const formKas =
-        document.getElementById("formKas");
+        document.getElementById(
+            "formKas"
+        );
 
     if(
+
         user.role !== "ketua" &&
+
         user.role !== "bendahara"
+
     ){
 
         formKas.style.display =
             "none";
     }
 
+    // =====================
+    // AMBIL DATA KAS
+    // =====================
+
     let dataKas = JSON.parse(
-        localStorage.getItem("dataKas")
+
+        localStorage.getItem(
+            "dataKas"
+        )
+
     ) || [];
 
     tampilkanKas();
 
-    document.getElementById("tambahKas")
-    .addEventListener("click",function(){
+    // =====================
+    // TAMBAH KAS
+    // =====================
 
-        const nama =
-            document.getElementById("namaSiswa")
-            .value;
+    document.getElementById(
+        "tambahKas"
+    )
 
-        const jumlah =
-            parseInt(
-                document.getElementById("jumlahKas")
-                .value
+    .addEventListener(
+
+        "click",
+
+        function(){
+
+            const nama =
+
+                document.getElementById(
+                    "namaSiswa"
+                ).value;
+
+            const jumlah =
+
+                parseInt(
+
+                    document.getElementById(
+                        "jumlahKas"
+                    ).value
+
+                );
+
+            if(
+
+                !nama ||
+
+                !jumlah
+
+            ){
+
+                alert(
+
+                    "Isi semua data!"
+
+                );
+
+                return;
+            }
+
+            dataKas.push({
+
+                nama,
+
+                jumlah
+
+            });
+
+            localStorage.setItem(
+
+                "dataKas",
+
+                JSON.stringify(
+                    dataKas
+                )
+
             );
 
-        if(!nama || !jumlah){
+            tampilkanKas();
 
-            alert(
-                "Isi semua data!"
-            );
+            document.getElementById(
+                "namaSiswa"
+            ).value = "";
 
-            return;
+            document.getElementById(
+                "jumlahKas"
+            ).value = "";
+
         }
 
-        dataKas.push({
+    );
 
-            nama,
-            jumlah
-
-        });
-
-        localStorage.setItem(
-
-            "dataKas",
-
-            JSON.stringify(dataKas)
-
-        );
-
-        tampilkanKas();
-
-    });
+    // =====================
+    // TAMPILKAN KAS
+    // =====================
 
     function tampilkanKas(){
 
         const list =
-            document.getElementById("listKas");
+
+            document.getElementById(
+                "listKas"
+            );
 
         list.innerHTML = "";
 
         let total = 0;
 
-        dataKas.forEach(item=>{
+        dataKas.forEach(
 
-            total += item.jumlah;
+            item=>{
 
-            list.innerHTML += `
-                <li>
-                    ${item.nama}
-                    -
-                    Rp ${item.jumlah.toLocaleString('id-ID')}
-                </li>
-            `;
+                total += item.jumlah;
 
-        });
+                list.innerHTML +=
 
-        document.getElementById("totalKas")
+                `
+
+                    <li>
+
+                        ${item.nama}
+
+                        -
+
+                        Rp ${item.jumlah.toLocaleString('id-ID')}
+
+                    </li>
+
+                `;
+
+            }
+
+        );
+
+        document.getElementById(
+            "totalKas"
+        )
+
         .textContent =
+
             "Rp " +
+
             total.toLocaleString(
                 "id-ID"
             );
+
     }
 
 };
